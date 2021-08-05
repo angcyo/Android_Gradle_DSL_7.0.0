@@ -41,6 +41,48 @@ def gradleApi = "C:\\Users\\Administrator\\.gradle\\caches\\modules-2\\files-2.1
 implementation fileTree(dir: gradleApi, include: ["*.jar", "*\\*.jar"])
 ```
 
+最终代码:
+
+```groovy
+android {
+    
+    //输出gradle版本
+    println(gradle.gradleVersion) //7.0.2
+
+    def apkFolder = new File(project.rootDir.absolutePath + "/apk")//rootProject.file("/apk")
+    apkFolder.mkdirs()
+    println "APK输出目录:${apkFolder.absolutePath}"
+
+    println(it) //extension 'android'
+    println(it.class) //class com.android.build.gradle.internal.dsl.BaseAppModuleExtension_Decorated
+    com.android.build.gradle.internal.dsl.BaseAppModuleExtension //点击跳转到目标类, 查看可操作的成员对象
+
+    //com.android.build.gradle.AbstractAppExtension.getApplicationVariants //操作对象
+    applicationVariants.all { variant ->
+        println(variant) //com.android.build.gradle.internal.api.ApplicationVariantImpl_Decorated@a10a2fd
+        println(variant.class) //class com.android.build.gradle.internal.api.ApplicationVariantImpl_Decorated
+        com.android.build.gradle.internal.api.ApplicationVariantImpl //点击跳转到目标类, 查看可操作的成员对象
+
+        if (variant.buildType.name != "debug") {
+            //com.android.build.gradle.internal.api.ApkVariantImpl.getPackageApplicationProvider //操作对象
+            //com.android.build.gradle.tasks.PackageAndroidArtifact.getOutputDirectory //操作对象
+            variant.packageApplicationProvider.get().outputDirectory = apkFolder //修改输出的文件夹路径
+        }
+
+        //com.android.build.gradle.api.BaseVariant.getOutputs 操作对象
+        variant.outputs.forEach {
+            println(it) //ApkVariantOutputImpl_Decorated{variantOutput=VariantOutputImpl(versionCode=property(java.lang.Integer, provider(class java.lang.Integer)), versionName=property(java.lang.String, provider(class java.lang.String)), enabled=property(java.lang.Boolean, fixed(class java.lang.Boolean, true)), variantOutputConfiguration=VariantOutputConfigurationImpl(isUniversal=false, filters=[]), baseName=release, fullName=release, outputFileName=property(java.lang.String, fixed(class java.lang.String, Android_Gradle_DSL_7.0.0-release-unsigned.apk)))}
+            println(it.class) //class com.android.build.gradle.internal.api.ApkVariantOutputImpl_Decorated
+            com.android.build.gradle.internal.api.ApkVariantOutputImpl //点击跳转到目标类, 查看可操作的成员对象
+
+            //com.android.build.gradle.internal.api.BaseVariantOutputImpl.setOutputFileName 操作对象
+            it.outputFileName = "demo.apk" //最终修改生成的apk文件名
+        }
+    }
+}
+```
+
+
 # 其他版本
 
 [Android_Gradle_DSL_7.0.0](https://github.com/angcyo/Android_Gradle_DSL_7.0.0)
