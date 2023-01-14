@@ -85,6 +85,10 @@ android {
 
 # 其他版本
 
+[Android_Gradle_DSL_7.4.0](https://github.com/angcyo/Android_Gradle_DSL_7.4.0)
+
+[Android_Gradle_DSL_7.2.1](https://github.com/angcyo/Android_Gradle_DSL_7.2.1)
+
 [Android_Gradle_DSL_7.0.0](https://github.com/angcyo/Android_Gradle_DSL_7.0.0)
 
 [Android_Gradle_DSL_4.1.0](https://github.com/angcyo/Android_Gradle_DSL_4.1.0)
